@@ -41,8 +41,8 @@ class ScriptObject : public SimObject
 
 public:
    ScriptObject();
-   bool onAdd();
-   void onRemove();
+   virtual bool onAdd();
+   virtual void onRemove();
 
    DECLARE_CONOBJECT(ScriptObject);
 

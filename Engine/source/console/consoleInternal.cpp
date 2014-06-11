@@ -1242,6 +1242,21 @@ void Namespace::addScriptCallback( const char *funcName, const char *usage, Cons
    ent->cb.mCallbackName = funcName;
 }
 
+void Namespace::addScriptCommand( StringTableEntry name, ScriptStringCallback cb, const char *usage, S32 minArgs, S32 maxArgs, bool isToolOnly, ConsoleFunctionHeader* header )
+{
+   Entry *ent = createLocalEntry(name);
+   trashCache();
+
+   ent->mUsage = usage;
+   ent->mHeader = header;
+   ent->mMinArgs = minArgs;
+   ent->mMaxArgs = maxArgs;
+   ent->mToolOnly = isToolOnly;
+
+   ent->mType = Entry::extScriptCallbackType;
+   ent->cb.mScriptStringCallbackFunc = cb;
+}
+
 void Namespace::markGroup(const char* name, const char* usage)
 {
    static U32 uid=0;
@@ -1315,6 +1330,8 @@ const char *Namespace::Entry::execute(S32 argc, const char **argv, ExprEvalState
          dSprintf(returnBuffer, sizeof(returnBuffer), "%d",
             (U32)cb.mBoolCallbackFunc(state->thisObject, argc, argv));
          return returnBuffer;
+      case extScriptCallbackType:
+         return cb.mScriptStringCallbackFunc(state->thisObject, this->mNamespace, argc, argv);
    }
 
    return "";
