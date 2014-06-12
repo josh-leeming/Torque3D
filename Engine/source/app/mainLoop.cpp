@@ -428,6 +428,14 @@ bool StandardMainLoop::handleCommandLine( S32 argc, const char **argv )
    }
 #endif
 
+#ifdef TORQUE_PYTHON_EMBED
+   // If we're running from Python, don't look for main.cs.
+   if(dStrnicmp(Platform::getExecutableName(), "python", 6) == 0)
+   {
+      return true;
+   }
+#endif
+
    // Executes an entry script file. This is "main.cs"
    // by default, but any file name (with no whitespace
    // in it) may be run if it is specified as the first
