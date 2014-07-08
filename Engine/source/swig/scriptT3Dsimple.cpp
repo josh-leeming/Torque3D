@@ -40,6 +40,12 @@ const char* getSimObjectScript(SimObject *obj){
 	return ret;
 }
 
+// getting the ID of using the SimObject pointer
+U32 getSimObjectID(SimObject *obj){
+   U32 id = obj->getId();
+   return id;
+}
+
 // determine if the string is a valid identifier
 bool isValidIdentifier(const char *name){
 	int slen;

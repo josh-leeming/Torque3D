@@ -5968,6 +5968,34 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_getSimObjectID(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  SimObject *arg1 = (SimObject *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  U32 result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:getSimObjectID",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_SimObject, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getSimObjectID" "', argument " "1"" of type '" "SimObject *""'"); 
+  }
+  arg1 = reinterpret_cast< SimObject * >(argp1);
+  {
+    SWIG_PYTHON_THREAD_BEGIN_ALLOW;
+    result = getSimObjectID(arg1);
+    SWIG_PYTHON_THREAD_END_ALLOW;
+  }
+  {
+    resultobj = PyInt_FromLong(result);
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 static PyMethodDef SwigMethods[] = {
 	 { (char *)"SWIG_PyInstanceMethod_New", (PyCFunction)SWIG_PyInstanceMethod_New, METH_O, NULL},
 	 { (char *)"ExportCallback", ExportCallback, METH_VARARGS, NULL},
@@ -5987,6 +6015,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"getVariable", _wrap_getVariable, METH_VARARGS, NULL},
 	 { (char *)"setVariable", _wrap_setVariable, METH_VARARGS, NULL},
 	 { (char *)"getSimObjectScript", _wrap_getSimObjectScript, METH_VARARGS, NULL},
+	 { (char *)"getSimObjectID", _wrap_getSimObjectID, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 

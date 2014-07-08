@@ -125,6 +125,9 @@ extern "C" {
 // getting the TS equivalent of a SimObject
 const char* getSimObjectScript(SimObject *obj);
 
+// getting the ID of using the SimObject pointer
+U32 getSimObjectID(SimObject *obj);
+
 // lookup for exported console functions
 static HashTable<Namespace::Entry*,void*> gScriptCallbackLookup;
 
