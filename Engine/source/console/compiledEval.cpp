@@ -1963,6 +1963,16 @@ breakContinue:
                            STR.setIntValue(result);
                         break;
                      }
+                     case Namespace::Entry::extScriptCallbackType:
+                     {
+                        const char *ret = nsEntry->cb.mScriptStringCallbackFunc(gEvalState.thisObject, nsEntry->mNamespace, callArgc, callArgv);
+                        STR.popFrame();
+                        if(ret != STR.getStringValue())
+                           STR.setStringValue(ret);
+                        else
+                           STR.setLen(dStrlen(ret));
+                        break;
+                     }
                   }
                }
             }

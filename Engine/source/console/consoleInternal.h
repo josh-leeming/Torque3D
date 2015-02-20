@@ -91,7 +91,8 @@ class Namespace
             IntCallbackType,
             FloatCallbackType,
             VoidCallbackType,
-            BoolCallbackType
+            BoolCallbackType,
+            extScriptCallbackType
          };
 
          /// Link back to the namespace to which the entry belongs.
@@ -141,6 +142,7 @@ class Namespace
             VoidCallback mVoidCallbackFunc;
             FloatCallback mFloatCallbackFunc;
             BoolCallback mBoolCallbackFunc;
+            ScriptStringCallback mScriptStringCallbackFunc;
             const char *mGroupName;
             const char *mCallbackName;
          } cb;
@@ -186,6 +188,8 @@ class Namespace
       void addCommand( StringTableEntry name, BoolCallback, const char *usage, S32 minArgs, S32 maxArgs, bool toolOnly = false, ConsoleFunctionHeader* header = NULL );
 
       void addScriptCallback( const char *funcName, const char *usage, ConsoleFunctionHeader* header = NULL );
+
+      void addScriptCommand( StringTableEntry name, ScriptStringCallback, const char *usage, S32 minArgs, S32 maxArgs, bool toolOnly = false, ConsoleFunctionHeader* header = NULL );
 
       void markGroup(const char* name, const char* usage);
       char * lastUsage;

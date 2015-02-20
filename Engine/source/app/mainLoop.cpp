@@ -249,7 +249,22 @@ void StandardMainLoop::init()
    Torque::FS::SetCwd( "game:/" );
 
    // Set our working directory.
+#ifdef TORQUE_PYTHON_EMBED
+   if (dStrnicmp(Platform::getExecutableName(), "python", 6) == 0)
+   {
+      // If being launched from Python
+      Platform::setMainDotCsDir( Platform::getCurrentDirectory() );
+      Torque::FS::Unmount( "game" );
+      Torque::FS::Mount( "game", Platform::FS::createNativeFS( ( const char* ) Platform::getCurrentDirectory() ) );
+   }
+   else
+   {
+      // If launched from Torque Toolbox or the executable wrapper for the DLL
+      Platform::setCurrentDirectory( Platform::getMainDotCsDir() );
+   }
+#else
    Platform::setCurrentDirectory( Platform::getMainDotCsDir() );
+#endif
 
    Processor::init();
    Math::init();
@@ -410,6 +425,14 @@ bool StandardMainLoop::handleCommandLine( S32 argc, const char **argv )
 
       Torque::FS::Unmount( "game" );
       Torque::FS::Mount( "game", Platform::FS::createNativeFS( playerPath ) );
+   }
+#endif
+
+#ifdef TORQUE_PYTHON_EMBED
+   // If we're running from Python, don't look for main.cs.
+   if(dStrnicmp(Platform::getExecutableName(), "python", 6) == 0)
+   {
+      return true;
    }
 #endif
 
