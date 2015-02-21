@@ -28,8 +28,10 @@ if(TORQUE_PYTHON_EMBED)
     # Add source files
     addPathRec( "${srcDir}/swig" )
 	
+	# Min version 2.7
 	FIND_PACKAGE(PythonLibs 2.7 REQUIRED)
 	
 	addLib(${PYTHON_LIBRARIES})
-
+	addInclude(${PYTHON_INCLUDE_DIRS})
+	
 endif()
