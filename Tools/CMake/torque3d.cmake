@@ -20,7 +20,11 @@
 # IN THE SOFTWARE.
 # -----------------------------------------------------------------------------
 
-project(${TORQUE_APP_NAME})
+if (TORQUE_PYTHON_EMBED)
+	project("_scriptT3D")
+ else()
+ 	project(${PROJECT_NAME})
+end if(
 
 if(UNIX)
     if(NOT CXX_FLAG32)
@@ -485,7 +489,7 @@ endif()
 ###############################################################################
 ###############################################################################
 if (TORQUE_PYTHON_EMBED)
-	finishLibrary()
+	finishScriptT3D()
 else()
 	finishExecutable()
 endif()

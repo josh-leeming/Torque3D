@@ -301,6 +301,46 @@ macro(finishExecutable)
     _postTargetProcess()
 endmacro()
 
+# macro to add a static library
+macro(finishScriptT3D)
+    # more paths?
+    if(${ARGC} GREATER 0)
+        foreach(dir ${ARGV0})
+            addPath("${dir}")
+        endforeach()
+    endif()
+    # now inspect the paths we got
+    set(firstDir "")
+    foreach(dir ${${PROJECT_NAME}_paths})
+        if("${firstDir}" STREQUAL "")
+            set(firstDir "${dir}")
+        endif()
+    endforeach()
+    generateFilters("${firstDir}")
+
+    # set per target compile flags
+    if(TORQUE_CXX_FLAGS_${PROJECT_NAME})
+        set_source_files_properties(${${PROJECT_NAME}_files} PROPERTIES COMPILE_FLAGS "${TORQUE_CXX_FLAGS_${PROJECT_NAME}}")
+    else()
+        set_source_files_properties(${${PROJECT_NAME}_files} PROPERTIES COMPILE_FLAGS "${TORQUE_CXX_FLAGS_LIBS}")
+    endif()
+
+    if(TORQUE_STATIC)
+        add_library("_scriptT3D" STATIC ${${PROJECT_NAME}_files})
+    else()
+        add_library("_scriptT3D" SHARED ${${PROJECT_NAME}_files})
+    endif()
+	
+	set_target_properties("_scriptT3D" PROPERTIES SUFFIX ".pyd")
+
+    # omg - only use the first folder ... otherwise we get lots of header name collisions
+    #foreach(dir ${${PROJECT_NAME}_paths})
+    addInclude("${firstDir}")
+    #endforeach()
+
+    _postTargetProcess()
+endmacro()
+
 macro(setupVersionNumbers)
     set(TORQUE_APP_VERSION_MAJOR 1 CACHE INTEGER "")
     set(TORQUE_APP_VERSION_MINOR 0 CACHE INTEGER "")
