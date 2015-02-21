@@ -20,11 +20,7 @@
 # IN THE SOFTWARE.
 # -----------------------------------------------------------------------------
 
-if (TORQUE_PYTHON_EMBED)
-	project("_scriptT3D")
- else()
- 	project(${PROJECT_NAME})
-end if(
+project(${PROJECT_NAME})
 
 if(UNIX)
     if(NOT CXX_FLAG32)
@@ -650,15 +646,17 @@ if(UNIX)
 	addInclude("/usr/include/freetype2")
 endif()
 
-if(MSVC)
-    # Match projectGenerator naming for executables
-    set(OUTPUT_CONFIG DEBUG MINSIZEREL RELWITHDEBINFO)
-    set(OUTPUT_SUFFIX DEBUG MINSIZE    OPTIMIZEDDEBUG)
-    foreach(INDEX RANGE 2)
-        list(GET OUTPUT_CONFIG ${INDEX} CONF)
-        list(GET OUTPUT_SUFFIX ${INDEX} SUFFIX)
-        set_property(TARGET ${PROJECT_NAME} PROPERTY OUTPUT_NAME_${CONF} ${PROJECT_NAME}_${SUFFIX})
-    endforeach()
+if (NOT TORQUE_PYTHON_EMBED)
+	if(MSVC)
+		# Match projectGenerator naming for executables
+		set(OUTPUT_CONFIG DEBUG MINSIZEREL RELWITHDEBINFO)
+		set(OUTPUT_SUFFIX DEBUG MINSIZE    OPTIMIZEDDEBUG)
+		foreach(INDEX RANGE 2)
+			list(GET OUTPUT_CONFIG ${INDEX} CONF)
+			list(GET OUTPUT_SUFFIX ${INDEX} SUFFIX)
+			set_property(TARGET ${PROJECT_NAME} PROPERTY OUTPUT_NAME_${CONF} ${PROJECT_NAME}_${SUFFIX})
+		endforeach()
+	endif()
 endif()
 
 ###############################################################################

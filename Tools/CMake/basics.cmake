@@ -303,12 +303,6 @@ endmacro()
 
 # macro to add a static library
 macro(finishScriptT3D)
-    # more paths?
-    if(${ARGC} GREATER 0)
-        foreach(dir ${ARGV0})
-            addPath("${dir}")
-        endforeach()
-    endif()
     # now inspect the paths we got
     set(firstDir "")
     foreach(dir ${${PROJECT_NAME}_paths})
@@ -316,22 +310,23 @@ macro(finishScriptT3D)
             set(firstDir "${dir}")
         endif()
     endforeach()
-    generateFilters("${firstDir}")
+    generateFiltersSpecial("${firstDir}")
 
     # set per target compile flags
     if(TORQUE_CXX_FLAGS_${PROJECT_NAME})
         set_source_files_properties(${${PROJECT_NAME}_files} PROPERTIES COMPILE_FLAGS "${TORQUE_CXX_FLAGS_${PROJECT_NAME}}")
     else()
-        set_source_files_properties(${${PROJECT_NAME}_files} PROPERTIES COMPILE_FLAGS "${TORQUE_CXX_FLAGS_LIBS}")
+        set_source_files_properties(${${PROJECT_NAME}_files} PROPERTIES COMPILE_FLAGS "${TORQUE_CXX_FLAGS_EXECUTABLES}")
     endif()
 
     if(TORQUE_STATIC)
-        add_library("_scriptT3D" STATIC ${${PROJECT_NAME}_files})
+        add_library("${PROJECT_NAME}" STATIC ${${PROJECT_NAME}_files})
     else()
-        add_library("_scriptT3D" SHARED ${${PROJECT_NAME}_files})
+        add_library("${PROJECT_NAME}" SHARED ${${PROJECT_NAME}_files})
     endif()
-	
-	set_target_properties("_scriptT3D" PROPERTIES SUFFIX ".pyd")
+
+	set_target_properties("${PROJECT_NAME}" PROPERTIES OUTPUT_NAME "_scriptT3D") 
+	set_target_properties("${PROJECT_NAME}" PROPERTIES SUFFIX ".pyd") 
 
     # omg - only use the first folder ... otherwise we get lots of header name collisions
     #foreach(dir ${${PROJECT_NAME}_paths})

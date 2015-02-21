@@ -317,7 +317,7 @@ typedef F32           (*FloatCallback)(SimObject *obj, S32 argc, ConsoleValueRef
 typedef void           (*VoidCallback)(SimObject *obj, S32 argc, ConsoleValueRef argv[]); // We have it return a value so things don't break..
 typedef bool           (*BoolCallback)(SimObject *obj, S32 argc, ConsoleValueRef argv[]);
 
-typedef const char * (*ScriptStringCallback)(SimObject *obj, Namespace *nsObj, S32 argc, const char *argv[]);
+typedef const char * (*ScriptStringCallback)(SimObject *obj, Namespace *nsObj, S32 argc, ConsoleValueRef argv[]);
 
 typedef void (*ConsumerCallback)(U32 level, const char *consoleLine);
 /// @}
